@@ -1,0 +1,67 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    container_name: "dbpostgressql"
+    env_file:
+      - .env
+    networks: 
+      red:
+          ipv4_address: 172.150.10.3
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWD}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "5432:${DB_PORT}"
+    volumes:
+      - db-datos:/var/lib/postgresql/data
+  base:
+    container_name: servidorbase
+    image: ubuntu-api
+    build: 
+      context: .
+      dockerfile: ../Dockerfile
+    ports:
+      - "3000:${PUERTO}"
+    volumes:
+      - servidorbase-datos:/home/api/apinest/proyectoapinest/node_module
+    env_file: 
+      - .env
+    networks: 
+      red:
+          ipv4_address: 172.150.10.2
+    depends_on:
+      - db
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: 80
+    env_file: 
+      - .env
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-datos:/var/lib/pgadmin
+    links:
+      - "db:pgsql-server"
+    networks: 
+      red:
+          ipv4_address: 172.150.10.4
+    depends_on:
+      - base
+volumes:
+  servidorbase-datos:
+  db-datos:
+  pgadmin-datos:
+networks: 
+  red:
+      ipam: 
+          driver: default
+          config: 
+              - subnet: 172.150.10.0/24 
