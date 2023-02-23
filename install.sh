@@ -1,1 +1,0 @@
-echo "klk klk klk"

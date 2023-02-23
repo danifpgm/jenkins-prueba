@@ -17,6 +17,6 @@ job('pruebaDSL') {
     }
     
     steps {
-        shell("bash install.sh")
+        shell("bash ./build/levantar-api.sh")
     }
 }
