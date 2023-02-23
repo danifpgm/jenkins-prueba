@@ -59,7 +59,7 @@ main(){
         newUser
         config_Sudoers
         config_ssh
-        config_nginx
+        #config_nginx
         npmGitInstalar
     fi
     tail -f /dev/null 
