@@ -1,4 +1,5 @@
-FROM ubuntu
+FROM node:16 as install
+LABEL stage=install
 ARG USUARIO
 ARG PASSWD
 ARG TZ
@@ -21,36 +22,21 @@ ENV DB_PORT=${DB_PORT}
 ENV PUERTO=${PUERTO}
 ENV JWT=${JWT}
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt update && apt install -yq --no-install-recommends \
-    gnupg2 \
-    ca-certificates \
-    nginx
+WORKDIR /app
+COPY --chown=node:node ./api_nest/package.json .
+COPY --chown=node:node ./api_nest/yarn.lock .
+RUN yarn install --force
 
-COPY ./build/scripts/start.sh /root
-COPY ./build/conf/nginx.conf /root
-COPY ./build/conf/id_rsa.pub /root
-RUN chmod +x /root/start.sh
+COPY --chown=node:node ./api_nest .
 
-RUN apt update && apt install -yq --no-install-recommends \
-    apt-utils \
-    wget \ 
-    curl \ 
-    git \
-    nano \ 
-    tree \
-    net-tools \ 
-    iputils-ping \
-    sudo \ 
-    openssh-server \ 
-    openssh-client \
-    unzip \
-    dos2unix \ 
-    expect \
-    python3 \
-    nodejs \
-    npm \
-    systemd
+RUN yarn build
+ENV NODE_ENV production
+RUN yarn config set network-timeout 60000
+RUN yarn install --production=true && yarn cache clean --force
 
-RUN dos2unix /root/start.sh 
-ENTRYPOINT [ "/root/start.sh" ]
+FROM nginx:1.19.0-alpine as deploy
+COPY --from=install /app/dist/main.js /usr/share/nginx/html/index.js
+COPY --from=install /app/node_modules /usr/share/nginx/html/node_modules
+EXPOSE 80
+
+CMD [ "nginx", "-g", "daemon off;" ]

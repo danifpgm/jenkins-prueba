@@ -17,6 +17,6 @@ job('pruebaDSL') {
     }
     
     steps {
-        shell("bash install.sh")
+        shell("bash levantar-api.sh")
     }
 }

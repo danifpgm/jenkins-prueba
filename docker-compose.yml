@@ -5,9 +5,6 @@ services:
     container_name: "dbpostgressql"
     env_file:
       - .env
-    networks: 
-      red:
-          ipv4_address: 172.150.10.3
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWD}
@@ -19,19 +16,17 @@ services:
       - db-datos:/var/lib/postgresql/data
   base:
     container_name: servidorbase
-    image: ubuntu-api
+    image: api-imagen
     build: 
       context: .
       dockerfile: ../Dockerfile
     ports:
       - "3000:${PUERTO}"
     volumes:
-      - servidorbase-datos:/home/api/apinest/proyectoapinest/node_module
+      - servidorbase-datos:./web:/var/www/html
+      - servidorbase-datos:./logs:/var/logs
     env_file: 
       - .env
-    networks: 
-      red:
-          ipv4_address: 172.150.10.2
     depends_on:
       - db
   pgadmin:
@@ -50,18 +45,9 @@ services:
       - pgadmin-datos:/var/lib/pgadmin
     links:
       - "db:pgsql-server"
-    networks: 
-      red:
-          ipv4_address: 172.150.10.4
     depends_on:
       - base
 volumes:
   servidorbase-datos:
   db-datos:
   pgadmin-datos:
-networks: 
-  red:
-      ipam: 
-          driver: default
-          config: 
-              - subnet: 172.150.10.0/24 
