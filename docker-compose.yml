@@ -16,7 +16,7 @@ services:
       - db-datos:/var/lib/postgresql/data
   base:
     container_name: servidorbase
-    image: api-imagen
+    image: imagen-api
     build: 
       context: .
       dockerfile: ../Dockerfile
