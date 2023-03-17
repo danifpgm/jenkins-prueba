@@ -2,9 +2,13 @@ version: "3"
 services:
   db:
     image: postgres
-    container_name: "dbpostgressql"
+    container_name: dbpostgressql
     env_file:
       - .env
+    networks: 
+      red:
+          ipv4_address: 172.150.10.3
+    depends_on:
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWD}
@@ -27,6 +31,10 @@ services:
       - servidorbase-datos:/var/logs
     env_file: 
       - .env
+    networks: 
+      red:
+          ipv4_address: 172.150.10.2
+    depends_on:
     depends_on:
       - db
   pgadmin:
@@ -45,9 +53,18 @@ services:
       - pgadmin-datos:/var/lib/pgadmin
     links:
       - "db:pgsql-server"
+    networks: 
+      red:
+          ipv4_address: 172.150.10.4
     depends_on:
       - base
 volumes:
   servidorbase-datos:
   db-datos:
   pgadmin-datos:
+networks: 
+  red:
+      ipam: 
+          driver: default
+          config: 
+              - subnet: 172.150.10.0/24
