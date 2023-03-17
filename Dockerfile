@@ -31,39 +31,17 @@
 
 # # ---------------------------------------
 
-
-
-
-
-
-
-
-FROM node:18 As development
-
-WORKDIR /usr/src/app
-
-COPY --chown=node:node ./api_nest/package*.json ./
-COPY --chown=node:node ./api_nest/yarn.lock ./
-
-RUN yarn install --only=development
-
+FROM node:18-alpine AS builder
+WORKDIR "/app"
 COPY ./api_nest .
+RUN npm ci
+RUN npm run build
+RUN npm prune --production
 
-RUN yarn build
-
-FROM node:18-alpine as production
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY --chown=node:node --from=install /usr/src/app/package*.json ./
-
-RUN yarn install --only=production
-
-COPY --chown=node:node --from=install /usr/src/app/ .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/main"]
+FROM node:18-alpine AS production
+WORKDIR "/app"
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+CMD [ "sh", "-c", "npm run start:prod"]
