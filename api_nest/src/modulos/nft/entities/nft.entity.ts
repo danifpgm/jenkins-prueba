@@ -13,6 +13,9 @@ export class Nft {
     @Column('text')
     img?: string;
 
+    @Column('numeric')
+    precio: number;
+
     @Column('text')
     @IsOptional()
     fechaCreacion?: string;

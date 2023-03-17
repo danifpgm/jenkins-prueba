@@ -1,7 +1,7 @@
 import { Broker } from "src/modulos/broker/entities/broker.entity";
 import { Cripto } from "src/modulos/cripto/entities/cripto.entity";
 import { Nft } from "src/modulos/nft/entities/nft.entity";
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('usuarios') 
 export class Usuario {
@@ -24,11 +24,16 @@ export class Usuario {
     @Column('bool', { default: true })
     esActivo: boolean;
 
+    // @Column('text', {
+    //     array: true,
+    //     default: ['usuario']
+    // })
+    // roles: string[]
+
     @Column('text', {
-        array: true,
-        default: ['usuario']
+        default: 'usuario'
     })
-    roles: string[]
+    rol: string
 
     @OneToOne(
     () => Nft,

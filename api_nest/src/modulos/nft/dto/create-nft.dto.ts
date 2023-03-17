@@ -1,4 +1,4 @@
-import { IsISO8601, IsString, MinLength } from "class-validator";
+import { IsISO8601, IsPositive, IsString, MinLength } from "class-validator";
 
 export class CreateNftDto {
     @IsString()
@@ -8,6 +8,9 @@ export class CreateNftDto {
     @IsString()
     @MinLength(1)
     img: string;
+
+    @IsPositive()
+    precio: number;
 
     @IsISO8601()
     fechaCreacion: string;

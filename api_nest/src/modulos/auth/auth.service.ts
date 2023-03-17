@@ -49,7 +49,7 @@ export class AuthServicio {
       const { correo, passwd } = loginUserDto;
       const usuario = await this.usuarioRepositorio
         .createQueryBuilder("usuarios")
-        .select(["usuarios.id", "usuarios.nombreCompleto", "usuarios.roles"])
+        .select(["usuarios.id", "usuarios.nombreCompleto", "usuarios.rol"])
         .addSelect("usuarios.passwd")
         .where( "usuarios.correo = :correo", { correo: correo})
         .getOne();

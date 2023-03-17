@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsBoolean, IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class CrearUsuarioDto {
     
@@ -23,10 +23,14 @@ export class CrearUsuarioDto {
     @IsOptional()
     esActivo?: boolean;
 
-    @IsString({ each: true })
-    @IsArray()
+    // @IsString({ each: true })
+    // @IsArray()
+    // @IsOptional()
+    // roles?: string[]
+
+    @IsString()
     @IsOptional()
-    roles?: string[]
+    rol?: string
 
     @IsString()
     @IsOptional()
