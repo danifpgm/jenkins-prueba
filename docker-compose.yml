@@ -19,7 +19,7 @@ services:
     image: imagen-api
     build: 
       context: .
-      dockerfile: ../Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - "3000:${PUERTO}"
     volumes:
