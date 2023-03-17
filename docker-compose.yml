@@ -23,8 +23,8 @@ services:
     ports:
       - "3000:${PUERTO}"
     volumes:
-      - servidorbase-datos:./web:/var/www/html
-      - servidorbase-datos:./logs:/var/logs
+      # - servidorbase-datos:/var/www/html
+      - servidorbase-datos:/var/logs
     env_file: 
       - .env
     depends_on:
