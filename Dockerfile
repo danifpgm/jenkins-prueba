@@ -45,7 +45,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node ./api_nest/package*.json ./
 COPY --chown=node:node ./api_nest/yarn.lock ./
 
-RUN npm install --only=development
+RUN yarn install --only=development
 
 COPY ./api_nest .
 
