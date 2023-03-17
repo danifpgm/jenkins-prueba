@@ -58,11 +58,11 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY --chown=node:node --from=install /usr/src/app/package*.json ./
 
 RUN yarn install --only=production
 
-COPY . .
+COPY --chown=node:node --from=install /usr/src/app/ .
 
 COPY --from=development /usr/src/app/dist ./dist
 
