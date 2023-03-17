@@ -16,7 +16,7 @@ import { clear } from 'console';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: '172.150.10.3',
       port: +process.env.DB_PUERTO,
       database: process.env.DB_NOMBRE,
       username: process.env.DB_NOMBREUSU,
