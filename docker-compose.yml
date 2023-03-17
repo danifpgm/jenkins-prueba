@@ -34,8 +34,6 @@ services:
     networks: 
       red:
         ipv4_address: 172.150.10.2
-    depends_on:
-      - db
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -55,8 +53,6 @@ services:
     networks: 
       red:
         ipv4_address: 172.150.10.4
-    depends_on:
-      - base
 volumes:
   servidorbase-datos:
   db-datos:
