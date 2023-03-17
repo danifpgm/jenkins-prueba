@@ -17,6 +17,8 @@ job('pruebaDSL') {
     }
     
     steps {
-        shell("bash levantar-api.sh")
+        // shell("bash levantar-api.sh")
+        sh 'chmod +x ./levantar-api.sh'
+        sh './levantar-api.sh'
     }
 }
