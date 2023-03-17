@@ -7,7 +7,7 @@ services:
       - .env
     networks: 
       red:
-          ipv4_address: 172.150.10.3
+        ipv4_address: 172.150.10.3
     depends_on:
     environment:
       POSTGRES_USER: ${DB_USERNAME}
@@ -33,8 +33,7 @@ services:
       - .env
     networks: 
       red:
-          ipv4_address: 172.150.10.2
-    depends_on:
+        ipv4_address: 172.150.10.2
     depends_on:
       - db
   pgadmin:
@@ -55,7 +54,7 @@ services:
       - "db:pgsql-server"
     networks: 
       red:
-          ipv4_address: 172.150.10.4
+        ipv4_address: 172.150.10.4
     depends_on:
       - base
 volumes:
