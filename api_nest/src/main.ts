@@ -12,6 +12,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true
     })
   )
-  await app.listen(+process.env.PUERTO);
+  await app.listen(3000);
 }
 bootstrap();
