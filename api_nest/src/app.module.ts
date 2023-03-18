@@ -21,7 +21,7 @@ import { clear } from 'console';
       // database: process.env.DB_NOMBRE,
       // username: process.env.DB_NOMBREUSU,
       // password: process.env.DB_PASSWD,
-      host: '172.150.10.2',
+      host: '172.150.10.3',
       port: 5432,
       database: 'postgres',
       username: 'postgres',
