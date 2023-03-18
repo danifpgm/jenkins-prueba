@@ -25,9 +25,9 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "3000:${PUERTO}"
-    volumes:
-      # - servidorbase-datos:/var/www/html
-      - servidorbase-datos:/var/logs
+    # volumes:
+    #   - servidorbase-datos:/var/www/html
+    #   - servidorbase-datos:/var/logs
     env_file: 
       - .env
     networks: 
@@ -57,7 +57,7 @@ services:
     depends_on:
       - base
 volumes:
-  servidorbase-datos:
+  # servidorbase-datos:
   db-datos:
   pgadmin-datos:
 networks: 

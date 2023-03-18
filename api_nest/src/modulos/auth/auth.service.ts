@@ -24,13 +24,14 @@ export class AuthServicio {
   async crear(crearUsuarioDto: CrearUsuarioDto) {
     try {
       console.log("Insertando usuario: ",crearUsuarioDto);
-      const { passwd, idCripto, ...userDatos } = crearUsuarioDto;
+      const { passwd, idCripto, ...usuarioDatos } = crearUsuarioDto;
       const usuario = this.usuarioRepositorio.create({
-        ...userDatos,
+        ...usuarioDatos,
         passwd: bcrypt.hashSync( passwd, 10 )
       });
       const cripto = await this.criptoServicio.findOne(idCripto);
-      usuario.criptos = [ cripto ]
+      delete cripto.usuarios;
+      usuario.criptos = [ cripto ];
       await this.usuarioRepositorio.save(usuario);
       //delete usuario.passwd;
 

@@ -34,9 +34,10 @@
 FROM node:18-alpine AS builder
 WORKDIR "/app"
 COPY ./api_nest .
-RUN npm ci
-RUN npm run build
-RUN npm prune --production
+RUN yarn install --immutable --immutable-cache --check-cache
+RUN yarn run build
+RUN yarn config set network-timeout 60000
+RUN yarn install --production=true && yarn cache clean --force
 
 FROM node:18-alpine AS production
 WORKDIR "/app"
