@@ -30,13 +30,13 @@ export class AuthServicio {
         passwd: bcrypt.hashSync( passwd, 10 )
       });
       const cripto = await this.criptoServicio.findOne(idCripto);
-      delete cripto.usuarios;
       usuario.criptos = [ cripto ];
       await this.usuarioRepositorio.save(usuario);
+      delete cripto.usuarios;
       //delete usuario.passwd;
 
       return {
-        usuario: { ...usuario },
+        usuario: usuario,
         token: this.getJwtToken({ correo: usuario.correo })
       }
       
